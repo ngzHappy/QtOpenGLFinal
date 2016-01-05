@@ -17,3 +17,5 @@ ZGLSource/glewinfo.c
 ClearColor/debug/moc_MainWindow.cpp
 Test0/release/moc_MainWindow.cpp
 Test0/debug/moc_MainWindow.cpp
+ClearColor1/release/moc_MainWindow.cpp
+ClearColor1/debug/moc_MainWindow.cpp
