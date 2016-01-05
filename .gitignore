@@ -1,0 +1,4 @@
+*.user
+ZGLSource/visualinfo.c
+ZGLSource/glewinfo.c
+*.autosave
