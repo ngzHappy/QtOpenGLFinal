@@ -6,10 +6,12 @@
 #include <cstdlib>
 #include <utility>
 #include <memory>
+#include <QString>
+#include <QList>
 
 class QGLWidget;
 extern bool qGLWidgetInitializeGlew(QGLWidget * const ptr);
-
+extern QString readGLSLFile( const QString & fileName,const QList<QString> & filePath );
 
 #endif
 

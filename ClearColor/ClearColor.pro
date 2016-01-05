@@ -14,4 +14,10 @@ include( $$PWD/../GLEW.pri )
 
 HEADERS  += MainWindow.hpp
 
+DEFINES += GLSL_PWD=$$join( PWD,,\\\",\\\")
+
+DEFINES += LOCAL_LANGUAGE=$$join( LOCAL_LANGUAGE_,,\\\",\\\")
+DEFINES += GLSL_PWD=$$join( PWD,,\\\",\\\")
+
+
 

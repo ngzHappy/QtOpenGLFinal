@@ -1,5 +1,9 @@
 ﻿#include <ZGL/QGLTool.hpp>
 #include "MainWindow.hpp"
+#include <QString>
+#include <QList>
+
+extern QList<QString> glslFileSearchPath;
 
 MainWindow::MainWindow(QWidget *parent)
     : QGLWidget(parent){

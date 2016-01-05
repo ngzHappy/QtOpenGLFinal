@@ -1,9 +1,14 @@
 
+win32{
+LOCAL_LANGUAGE_ = GBK
+}else{
+LOCAL_LANGUAGE_ = UTF-8
+}
 
 DEFINES *= GLEW_STATIC
 SOURCES += $$PWD/ZGLSource/glew.c###glew
 SOURCES += $$PWD/ZGLSource/QGLWidgetInitializeGlew.cpp###init glew
-SOURCES += $$PWD/ZGLSource/QOpenGLInitTool.cpp##init qglwidget
+SOURCES += $$PWD/ZGLSource/QOpenGLTool.cpp##init qglwidget
 
 HEADERS += $$PWD/ZGL/QGLTool.hpp
 

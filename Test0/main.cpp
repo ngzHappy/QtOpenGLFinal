@@ -1,11 +1,21 @@
-#include "MainWindow.hpp"
+﻿#include "MainWindow.hpp"
 #include <QApplication>
+#include <QTextCodec>
+#include <QString>
+#include <QList>
+
+QList<QString> glslFileSearchPath;
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
+    QApplication app(argc, argv);
 
-    return a.exec();
+    QTextCodec::setCodecForLocale( QTextCodec::codecForName(LOCAL_LANGUAGE) );
+    glslFileSearchPath.append( app.applicationDirPath()+"/glsl" );
+    glslFileSearchPath.append( GLSL_PWD );
+
+    MainWindow window;
+    window.show();
+
+    return app.exec();
 }

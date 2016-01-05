@@ -3,6 +3,11 @@
 #include <QSurfaceFormat>
 #include <QOpenGLContext>
 #include <QDebug>
+#include <QList>
+#include <QString>
+#include <QFileInfo>
+#include <QFile>
+#include <QTextStream>
 
 namespace  {
 
@@ -34,5 +39,17 @@ extern void _i_qInitializeQGLWidget(QGLWidget *glWidget){
     __initialization(glWidget);
 }
 
-
+extern QString readGLSLFile( const QString & fileName,const QList<QString> & filePath ){
+    QString fullFileName;
+    for( const auto & path_:filePath ){
+        QFileInfo info( path_+"/"+fileName );
+        if(info.exists()){fullFileName=info.absoluteFilePath();}
+    }
+    if(fullFileName.isEmpty()){return QString();}
+    QFile file( fullFileName );
+    if( file.open(QIODevice::ReadOnly|QIODevice::Text ) ){
+        return file.readAll() ;
+    }
+    return QString();
+}
 

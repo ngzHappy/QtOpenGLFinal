@@ -10,7 +10,6 @@ int main(int argc, char *argv[])
 
     QTextCodec::setCodecForLocale( QTextCodec::codecForName(LOCAL_LANGUAGE) );
     glslFileSearchPath.append( app.applicationDirPath()+"/glsl" );
-    glslFileSearchPath.append( app.applicationDirPath()+"/image" );
     glslFileSearchPath.append( GLSL_PWD );
 
     MainWindow window;

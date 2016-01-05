@@ -1,8 +1,9 @@
 ﻿#include <ZGL/QGLTool.hpp>
 #include "MainWindow.hpp"
-#include <QString>
+#include <cmath>
+#include <QDateTime>
 #include <QList>
-#include <QDebug>
+#include <QString>
 
 extern QList<QString> glslFileSearchPath;
 
@@ -15,9 +16,13 @@ MainWindow::~MainWindow(){
 
 }
 
+void MainWindow::timerEvent(QTimerEvent *){
+    updateGL();
+}
 
 void MainWindow::paintGL() {
-    const static float color_[]{(rand()%1000)/1000.0f,(rand()%1000)/1000.0f,(rand()%1000)/1000.0f,1};
+    const float currentTime = (QDateTime::currentMSecsSinceEpoch() & 65535)*0.0001f ;
+    const float color_[]{ (std::sin(currentTime)+1)*0.5f,(1+std::cos(currentTime))*0.5f,0.67f, 1};
     glClearBufferfv(GL_COLOR,0,color_);
 }
 
@@ -26,7 +31,7 @@ void MainWindow::resizeGL(int w, int h){
 }
 
 void MainWindow::initializeGL(){
-
+    startTimer(588);
 }
 
 
