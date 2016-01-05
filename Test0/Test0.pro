@@ -17,7 +17,6 @@ HEADERS  += MainWindow.hpp
 DEFINES += LOCAL_LANGUAGE=$$join( LOCAL_LANGUAGE_,,\\\",\\\")
 DEFINES += GLSL_PWD=$$join( PWD,,\\\",\\\")
 
-DISTFILES += \
-    v.vert
+DISTFILES += glsl/v.vert
 
 
