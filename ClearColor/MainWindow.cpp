@@ -10,7 +10,6 @@ MainWindow::~MainWindow(){
 
 }
 
-
 void MainWindow::paintGL() {
     glClearColor((rand()%1000)/1000.0f,(rand()%1000)/1000.0f,(rand()%1000)/1000.0f,1);
     glClear(GL_COLOR_BUFFER_BIT);
