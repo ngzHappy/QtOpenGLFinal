@@ -1,29 +1,34 @@
-﻿#include <ZGL/QGLTool.hpp>
-#include <QMessageBox>
-#include <QGLWidget>
+﻿#include <QGLWidget>
+#include <QSurfaceFormat>
+#include <QOpenGLContext>
+#include <QDebug>
 
-extern void _i_qInitializeQGLWidget(QGLWidget *glWidget);
+namespace  {
 
-namespace{
-static inline bool __QGLWidgetInitializeGlew(
-        QGLWidget * const ptr
-        )
-{
-    _i_qInitializeQGLWidget(ptr);
-    ptr->makeCurrent();
-    glewExperimental = GL_TRUE;
-    int glewErr = glewInit();
-    if( glewErr != GLEW_OK )
-    {
-        QMessageBox box;
-        box.setText("opengl/glew init error!");
-        box.exec();
-        return false;
-    }//
-    return true;
+static void __initialization( QGLWidget * glWidget ){
+    if(0==glWidget){return;}
+    QOpenGLContext * ch = glWidget->context()->contextHandle() ;
+    if(ch){
+        QSurfaceFormat format =ch->format() ;
+        format.setProfile( QSurfaceFormat::CoreProfile );
+        format.setOption( QSurfaceFormat::DebugContext );
+        format.setVersion(4,5);
+        format.setSamples(8);
+        format.setDepthBufferSize(24);
+        format.setStencilBufferSize(8);
+        ch->setFormat(format);
+        if(ch->create()){return;}
+        else{
+            qDebug()<<"error create opengl debug";
+        }
+    }else{
+        qDebug()<<"error init opengl debug";
+    }
 }
+
 }
 
-bool qGLWidgetInitializeGlew(QGLWidget * const ptr){
-    return __QGLWidgetInitializeGlew(ptr);
+
+extern void _i_qInitializeQGLWidget(QGLWidget *glWidget){
+    __initialization(glWidget);
 }

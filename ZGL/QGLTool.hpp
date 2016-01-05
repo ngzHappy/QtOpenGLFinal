@@ -11,8 +11,6 @@
 #include <initializer_list>
 
 class QGLWidget;
-extern bool qGLWidgetInitializeGlew(QGLWidget * const ptr);
-extern QString readGLSLFile( const QString & fileName,const QList<QString> & filePath );
 
 enum GLSLShaderType{
     VERTEX_SHADER=GL_VERTEX_SHADER,
@@ -29,6 +27,8 @@ public:
     QString data ;
 };
 
+extern bool qGLWidgetInitializeGlew(QGLWidget * const ptr);
+extern QString readGLSLFile( const QString & fileName,const QList<QString> & filePath );
 extern GLuint createProgram( const std::initializer_list<GLSLFile> & );
 
 #endif

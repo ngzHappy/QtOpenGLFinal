@@ -1,8 +1,6 @@
 ﻿ 
 #include <ZGL/QGLTool.hpp>
 #include <QGLWidget>
-#include <QSurfaceFormat>
-#include <QOpenGLContext>
 #include <QDebug>
 #include <QList>
 #include <QString>
@@ -10,35 +8,32 @@
 #include <QFile>
 #include <QTextStream>
 #include <vector>
+#include <QMessageBox>
 
-namespace  {
+extern void _i_qInitializeQGLWidget(QGLWidget *glWidget);
 
-static void __initialization( QGLWidget * glWidget ){
-    if(0==glWidget){return;}
-    QOpenGLContext * ch = glWidget->context()->contextHandle() ;
-    if(ch){
-        QSurfaceFormat format =ch->format() ;
-        format.setProfile( QSurfaceFormat::CoreProfile );
-        format.setOption( QSurfaceFormat::DebugContext );
-        format.setVersion(4,5);
-        format.setSamples(8);
-        format.setDepthBufferSize(24);
-        format.setStencilBufferSize(8);
-        ch->setFormat(format);
-        if(ch->create()){return;}
-        else{
-            qDebug()<<"error create opengl debug";
-        }
-    }else{
-        qDebug()<<"error init opengl debug";
-    }
+namespace{
+static inline bool __QGLWidgetInitializeGlew(
+    QGLWidget * const ptr
+    )
+{
+    _i_qInitializeQGLWidget(ptr);
+    ptr->makeCurrent();
+    glewExperimental = GL_TRUE;
+    int glewErr = glewInit();
+    if( glewErr != GLEW_OK )
+    {
+        QMessageBox box;
+        box.setText("opengl/glew init error!");
+        box.exec();
+        return false;
+    }//
+    return true;
+}
 }
 
-}
-
-
-extern void _i_qInitializeQGLWidget(QGLWidget *glWidget){
-    __initialization(glWidget);
+bool qGLWidgetInitializeGlew(QGLWidget * const ptr){
+    return __QGLWidgetInitializeGlew(ptr);
 }
 
 extern QString readGLSLFile( const QString & fileName,const QList<QString> & filePath ){
@@ -116,4 +111,7 @@ GLuint createProgram( const std::initializer_list<GLSLFile> & glslFiles )try{
 }catch( ... ){
 return 0;
 }
+
+
+
 
