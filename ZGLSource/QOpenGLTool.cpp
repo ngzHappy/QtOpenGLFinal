@@ -1,4 +1,4 @@
-﻿ 
+﻿
 #include <ZGL/QGLTool.hpp>
 #include <QGLWidget>
 #include <QDebug>
@@ -9,6 +9,7 @@
 #include <QTextStream>
 #include <vector>
 #include <QMessageBox>
+
 
 extern void _i_qInitializeQGLWidget(QGLWidget *glWidget);
 
@@ -74,7 +75,7 @@ GLuint createProgram( const std::initializer_list<GLSLFile> & glslFiles )try{
 
     {/*set shader source*/
         auto fp=glslFiles.begin(); const auto fe=glslFiles.end();
-        auto sp=shaders.begin(); 
+        auto sp=shaders.begin();
         for (;fp!=fe;++fp,++sp) {
             const QByteArray shader_data_=fp->data.toUtf8();
             if (shader_data_.isEmpty()) { throw "shader data empty"; }
@@ -112,6 +113,56 @@ GLuint createProgram( const std::initializer_list<GLSLFile> & glslFiles )try{
 return 0;
 }
 
+namespace  {
 
+static void GLAPIENTRY __debug__callback(
+        GLenum source,
+        GLenum type,
+        GLuint id,
+        GLenum severity,
+        GLsizei length,
+        const GLchar* message,
+        const void* /*userParam*/
+        )
+{
+    QString message_;
+    message_+="source:"+QString::number( source )+"\n";
+    message_+="type:"+QString::number(type)+"\n";
+    message_+="id:"+QString::number(id)+"\n";
+    message_+="severity:"+QString::number(severity)+"\n";
+    message_+=QString::fromUtf8( message,length );
+    qDebug()<<"message: "<<message_ ;
+}
+
+}
+
+void setSimpleCallbackFunction(bool e )
+{
+    if(e==false){return;}
+
+    glEnable(GL_DEBUG_OUTPUT);
+    glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+
+    glDebugMessageControl(GL_DONT_CARE,
+                          GL_DONT_CARE,
+                          GL_DONT_CARE,
+                          0,
+                          0,
+                          true);
+    glDebugMessageCallback(
+                &__debug__callback,
+                0);
+
+    GLint v = 0x01;
+    glGetIntegerv( GL_CONTEXT_FLAGS, &v );
+    if(GL_CONTEXT_FLAG_DEBUG_BIT&v)
+    {
+        qDebug()<<"simple debug function set!" ;
+    }
+    else
+    {
+        qDebug()<<"debug function set failed!";
+    }
+}
 
 

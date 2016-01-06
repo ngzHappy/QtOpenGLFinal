@@ -6,6 +6,7 @@
 #include <QString>
 
 extern QList<QString> glslFileSearchPath;
+class MainWindow::MainWindowData {};
 
 MainWindow::MainWindow(QWidget *parent)
     : QGLWidget(parent){
@@ -13,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow(){
-
+    delete thisData;
 }
 
 void MainWindow::timerEvent(QTimerEvent *){
@@ -31,6 +32,9 @@ void MainWindow::resizeGL(int w, int h){
 }
 
 void MainWindow::initializeGL(){
+    if (thisData) { return; }
+    setSimpleCallbackFunction();
+    thisData=new MainWindowData;
     startTimer(588);
 }
 

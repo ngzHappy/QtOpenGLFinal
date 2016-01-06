@@ -30,6 +30,7 @@ public:
 extern bool qGLWidgetInitializeGlew(QGLWidget * const ptr);
 extern QString readGLSLFile( const QString & fileName,const QList<QString> & filePath );
 extern GLuint createProgram( const std::initializer_list<GLSLFile> & );
+extern void setSimpleCallbackFunction(bool e=true);
 
 #endif
 

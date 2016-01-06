@@ -6,7 +6,8 @@
 class MainWindow : public QGLWidget
 {
     Q_OBJECT
-
+    class MainWindowData;
+    MainWindowData * thisData=nullptr;
 public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();

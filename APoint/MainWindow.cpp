@@ -48,6 +48,7 @@ void MainWindow::resizeGL(int w, int h){
 
 void MainWindow::initializeGL(){
     if(nullptr == thisData){
+        setSimpleCallbackFunction();
         thisData = new MainWindowData;
     }
 }

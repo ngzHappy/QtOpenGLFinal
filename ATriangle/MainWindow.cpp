@@ -15,8 +15,8 @@ public:
     TriangleProgram&operator=(TriangleProgram &&)=delete;
     TriangleProgram(){
         program=createProgram({ 
-            {GLSLShaderType::FRAGMENT_SHADER,"glsl/f.frag"},
-            {GLSLShaderType::VERTEX_SHADER,"glsl/v.vert"} 
+            {GLSLShaderType::VERTEX_SHADER,readGLSLFile("glsl/v.vert",glslFileSearchPath)} ,
+            {GLSLShaderType::FRAGMENT_SHADER,readGLSLFile("glsl/f.frag",glslFileSearchPath)},
         });
     }
     void draw( GLuint vao ,int firstPoint,int pointSize ){
@@ -36,12 +36,43 @@ class VertexArrayObject {
     VertexArrayObject(VertexArrayObject &&)=delete;
 public:
     GLuint vertexArrayObject=0;
+    GLuint buffer[3];
     VertexArrayObject() {
         glCreateVertexArrays(1,&vertexArrayObject);
+        glCreateBuffers(3,buffer);
+        const static constexpr float data_0[]{
+            -0.5f,-0.5f,0.0f,1,
+             0.5f,-0.5f,0.0f,1,
+             0.0f, 0.0f,0.0f,1,
+        };
+        const static constexpr float data_1[]{
+            -0.5f,-0.5f,0.0f,1,
+            0.5f,-0.5f,0.0f,1,
+            0.0f, .25f,0.0f,1,
+        };
+        const static constexpr float data_2[]{
+            -0.5f,-0.5f,0.0f,1,
+            0.5f,-0.5f,0.0f,1,
+            0.0f, 0.5f,0.0f,1,
+        };
+
+        glNamedBufferData(buffer[0],sizeof(data_0),data_0,GL_STATIC_DRAW);
+        glNamedBufferData(buffer[1],sizeof(data_1),data_1,GL_STATIC_DRAW);
+        glNamedBufferData(buffer[2],sizeof(data_2),data_2,GL_STATIC_DRAW);
+
+        glVertexArrayVertexBuffer(vertexArrayObject,0,buffer[0],0,sizeof(float[4]));
+        glVertexArrayVertexBuffer(vertexArrayObject,1,buffer[1],0,sizeof(float[4]));
+        glVertexArrayVertexBuffer(vertexArrayObject,2,buffer[2],0,sizeof(float[4]));
+
+        glEnableVertexArrayAttrib(vertexArrayObject,0);
+        glVertexArrayAttribFormat(vertexArrayObject,0,4,GL_FLOAT,false,0);
+        glVertexArrayAttribBinding(vertexArrayObject,0,rand()%3);
+
     }
 
     ~VertexArrayObject() {
         glDeleteVertexArrays(1,&vertexArrayObject);
+        glDeleteBuffers(3,buffer);
     }
     operator GLuint() const { return vertexArrayObject; }
 };
@@ -49,7 +80,6 @@ public:
 class MainWindow::MainWindowData{
 public:
     TriangleProgram triangle;
-    VertexArrayObject vertexArrayObject;
 };
 
 MainWindow::MainWindow(QWidget *parent)
@@ -63,9 +93,10 @@ MainWindow::~MainWindow(){
 
 
 void MainWindow::paintGL() {
-    const static float color_[]{0.125f,(rand()%1000)/1000.0f,(rand()%1000)/1000.0f,1};
+    VertexArrayObject vertexArrayObject;
+    const static float color_[]{0.325f,(rand()%1000)/1000.0f,(rand()%1000)/1000.0f,1};
     glClearBufferfv(GL_COLOR,0,color_);
-    thisData->triangle.draw( thisData->vertexArrayObject,0,3 );
+    thisData->triangle.draw( vertexArrayObject,0,3 );
 }
 
 void MainWindow::resizeGL(int w, int h){
@@ -73,7 +104,12 @@ void MainWindow::resizeGL(int w, int h){
 }
 
 void MainWindow::initializeGL(){
+    if (thisData) { return; }
+    setSimpleCallbackFunction();
     thisData = new MainWindowData;
+    startTimer(888);
 }
 
-
+void MainWindow::timerEvent(QTimerEvent *) {
+    updateGL();
+}

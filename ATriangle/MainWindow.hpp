@@ -15,6 +15,7 @@ protected:
     void paintGL() override;
     void resizeGL(int w, int h)override;
     void initializeGL()override;
+    void timerEvent(QTimerEvent *)override;
 };
 
 #endif // MAINWINDOW_HPP
