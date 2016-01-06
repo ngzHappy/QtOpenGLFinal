@@ -4,7 +4,7 @@ QT += core gui
 QT += widgets
 QT += opengl
 
-TARGET = Test0
+TARGET = ATriangle
 TEMPLATE = app
 
 SOURCES += main.cpp
