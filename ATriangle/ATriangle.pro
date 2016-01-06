@@ -1,4 +1,4 @@
-
+CONFIG += console
 CONFIG += c++14
 QT += core gui
 QT += widgets

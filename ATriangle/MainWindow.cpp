@@ -14,7 +14,10 @@ public:
     TriangleProgram&operator=(const TriangleProgram &)=delete;
     TriangleProgram&operator=(TriangleProgram &&)=delete;
     TriangleProgram(){
-
+        program=createProgram({ 
+            {GLSLShaderType::FRAGMENT_SHADER,"glsl/f.frag"},
+            {GLSLShaderType::VERTEX_SHADER,"glsl/v.vert"} 
+        });
     }
     void draw( GLuint vao ,int firstPoint,int pointSize ){
         glUseProgram( program );
@@ -60,7 +63,7 @@ MainWindow::~MainWindow(){
 
 
 void MainWindow::paintGL() {
-    const static float color_[]{(rand()%1000)/1000.0f,(rand()%1000)/1000.0f,(rand()%1000)/1000.0f,1};
+    const static float color_[]{0.125f,(rand()%1000)/1000.0f,(rand()%1000)/1000.0f,1};
     glClearBufferfv(GL_COLOR,0,color_);
     thisData->triangle.draw( thisData->vertexArrayObject,0,3 );
 }
