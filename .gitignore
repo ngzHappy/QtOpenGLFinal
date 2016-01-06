@@ -23,3 +23,4 @@ APoint/debug/moc_MainWindow.cpp
 ClearColor/release/moc_MainWindow.cpp
 APoint/release/moc_MainWindow.cpp
 ATriangle/debug/moc_MainWindow.cpp
+ATriangle/release/moc_MainWindow.cpp
