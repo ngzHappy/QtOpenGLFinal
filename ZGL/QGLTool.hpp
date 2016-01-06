@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include <utility>
 #include <memory>
+#include <QImage>
 #include <QString>
 #include <QList>
 #include <initializer_list>
@@ -31,6 +32,7 @@ extern bool qGLWidgetInitializeGlew(QGLWidget * const ptr);
 extern QString readGLSLFile( const QString & fileName,const QList<QString> & filePath );
 extern GLuint createProgram( const std::initializer_list<GLSLFile> & );
 extern void setSimpleCallbackFunction(bool e=true);
+extern QImage readGLSLImage(const QString & fileName,const QList<QString> & filePath);
 
 #endif
 

@@ -24,3 +24,5 @@ ClearColor/release/moc_MainWindow.cpp
 APoint/release/moc_MainWindow.cpp
 ATriangle/debug/moc_MainWindow.cpp
 ATriangle/release/moc_MainWindow.cpp
+Texture2D/debug/moc_MainWindow.cpp
+Texture2D/release/moc_MainWindow.cpp

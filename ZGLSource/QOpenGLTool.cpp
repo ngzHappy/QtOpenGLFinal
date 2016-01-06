@@ -37,6 +37,17 @@ bool qGLWidgetInitializeGlew(QGLWidget * const ptr){
     return __QGLWidgetInitializeGlew(ptr);
 }
 
+extern QImage readGLSLImage(const QString & fileName,const QList<QString> & filePath) {
+    QString fullFileName;
+    for( const auto & path_:filePath ){
+        QFileInfo info( path_+"/"+fileName );
+        if(info.exists()){fullFileName=info.absoluteFilePath();}
+    }
+    if(fullFileName.isEmpty()){return QImage();}
+    const auto ans = QImage( fullFileName );
+    return ans.convertToFormat(QImage::Format_RGBA8888);
+}
+
 extern QString readGLSLFile( const QString & fileName,const QList<QString> & filePath ){
     QString fullFileName;
     for( const auto & path_:filePath ){
@@ -131,7 +142,7 @@ static void GLAPIENTRY __debug__callback(
     message_+="id:"+QString::number(id)+"\n";
     message_+="severity:"+QString::number(severity)+"\n";
     message_+=QString::fromUtf8( message,length );
-    qDebug()<<"message: "<<message_ ;
+    qDebug().noquote()<<"message: "<<message_ ;
 }
 
 }
