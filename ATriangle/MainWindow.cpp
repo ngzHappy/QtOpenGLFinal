@@ -37,6 +37,7 @@ class VertexArrayObject {
 public:
     GLuint vertexArrayObject=0;
     GLuint buffer[3];
+    
     VertexArrayObject() {
         glCreateVertexArrays(1,&vertexArrayObject);
         glCreateBuffers(3,buffer);
@@ -96,7 +97,8 @@ void MainWindow::paintGL() {
     VertexArrayObject vertexArrayObject;
     const static float color_[]{0.325f,(rand()%1000)/1000.0f,(rand()%1000)/1000.0f,1};
     glClearBufferfv(GL_COLOR,0,color_);
-    thisData->triangle.draw( vertexArrayObject,0,3 );
+    thisData->triangle.draw(vertexArrayObject,0,3 );
+     
 }
 
 void MainWindow::resizeGL(int w, int h){
